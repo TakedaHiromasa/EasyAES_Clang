@@ -22,40 +22,44 @@
 
 /*
  
-@–{ƒ\[ƒX‚ÍAAES‚ğŠw‚Ô‚½‚ß‚Éì¬‚µ‚½ƒ\[ƒX‚Å‚·B
-@“–ƒz[ƒ€ƒy[ƒW‚æ‚è”zM‚µ‚Ä‚¢‚éPDFƒtƒ@ƒCƒ‹‚ğQÆ‚µ‚Ä‘g‚µ‚Ä‚¨‚è‚Ü‚·‚Ì‚ÅA
-@PDFƒtƒ@ƒCƒ‹‚à‚²Ql‚­‚¾‚³‚¢B‚È‚¨PDFƒtƒ@ƒCƒ‹‚Í‰pŒê•\‹L‚Æ‚È‚Á‚Ä‚¨‚è‚Ü‚·B
+ã€€æœ¬ã‚½ãƒ¼ã‚¹ã¯ã€AESã‚’å­¦ã¶ãŸã‚ã«ä½œæˆã—ãŸã‚½ãƒ¼ã‚¹ã§ã™ã€‚
+ã€€å½“ãƒ›ãƒ¼ãƒ ãƒšãƒ¼ã‚¸ã‚ˆã‚Šé…ä¿¡ã—ã¦ã„ã‚‹PDFãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‚ç…§ã—ã¦çµ„è¾¼ã—ã¦ãŠã‚Šã¾ã™ã®ã§ã€
+ã€€PDFãƒ•ã‚¡ã‚¤ãƒ«ã‚‚ã”å‚è€ƒãã ã•ã„ã€‚ãªãŠPDFãƒ•ã‚¡ã‚¤ãƒ«ã¯è‹±èªè¡¨è¨˜ã¨ãªã£ã¦ãŠã‚Šã¾ã™ã€‚
   http://free.pjc.co.jp/AES/fips-197.pdf
 
 */
 
 /*
 
-  ƒ\[ƒXƒRƒƒ“ƒg“à—e‚É‚Â‚¢‚Ä•â‘«
+  ã‚½ãƒ¼ã‚¹ã‚³ãƒ¡ãƒ³ãƒˆå†…å®¹ã«ã¤ã„ã¦è£œè¶³
 
-  P.** ‚ÍA“–ƒz[ƒ€ƒy[ƒW”zM‚Ìd—l‘PDFƒtƒ@ƒCƒ‹‚ÆÆ‚ç‚µ‡‚í‚¹‚Ä‚²——‚­‚¾‚³‚¢B
+  P.** ã¯ã€å½“ãƒ›ãƒ¼ãƒ ãƒšãƒ¼ã‚¸é…ä¿¡ã®ä»•æ§˜æ›¸PDFãƒ•ã‚¡ã‚¤ãƒ«ã¨ç…§ã‚‰ã—åˆã‚ã›ã¦ã”è¦§ãã ã•ã„ã€‚
   http://free.pjc.co.jp/AES/fips-197.pdf
 
-  ‚È‚¨‚±‚Ì P.** •\‹L‚ÍAPDF‚Ìƒy[ƒW‚Å‚Í‚È‚­Ad—l‘‚ÌÀƒy[ƒW‚Æ‘Î‰‚µ‚Ä‚¨‚è‚Ü‚·B
-  —á) P.1 ‚Æ‚ ‚Á‚½ê‡A
-  Announcing the ADVANCED ENCRYPTION STANDARD (AES) ‚Ìƒy[ƒW‚Å‚Í‚È‚­
-  PDF‚Å‚Ì P.5 Specification for the ADVANCED ENCRYPTION STANDARD (AES) (–ÚŸ‚Ìƒy[ƒW)‚ª 
-  P.1 ‚Æ‚È‚è‚Ü‚·B
+  ãªãŠã“ã® P.** è¡¨è¨˜ã¯ã€PDFã®ãƒšãƒ¼ã‚¸ã§ã¯ãªãã€ä»•æ§˜æ›¸ã®å®Ÿãƒšãƒ¼ã‚¸ã¨å¯¾å¿œã—ã¦ãŠã‚Šã¾ã™ã€‚
+  ä¾‹) P.1 ã¨ã‚ã£ãŸå ´åˆã€
+  Announcing the ADVANCED ENCRYPTION STANDARD (AES) ã®ãƒšãƒ¼ã‚¸ã§ã¯ãªã
+  PDFã§ã® P.5 Specification for the ADVANCED ENCRYPTION STANDARD (AES) (ç›®æ¬¡ã®ãƒšãƒ¼ã‚¸)ãŒ 
+  P.1 ã¨ãªã‚Šã¾ã™ã€‚
 
 */
 
-#include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <string.h>
-#define NB 4                          /* 128bit ŒÅ’è‚Æ‚µ‚Ä‹KŠi‚³‚ê‚Ä‚¢‚é(ƒf[ƒ^‚Ì’·‚³) */
-#define NBb 16
+#include <array>
+
+constexpr int NB  = 4;   /* 128bit å›ºå®šã¨ã—ã¦è¦æ ¼ã•ã‚Œã¦ã„ã‚‹(ãƒ‡ãƒ¼ã‚¿ã®é•·ã•) */
+constexpr int NBb = 16;
+
+using namespace std;
 
 /************************************************************/
 unsigned char key[32];
 int w[60];                            /* FIPS 197 P.19 5.2 Key Expansion */
 int data[NB];
-int nk;                               /* 4,6,8(128,192,256 bit) Œ®‚Ì’·‚³ */
-int nr;                               /* 10,12,14 ƒ‰ƒEƒ“ƒh” */
+int nk;                               /* 4,6,8(128,192,256 bit) éµã®é•·ã• */
+int nr;                               /* 10,12,14 ãƒ©ã‚¦ãƒ³ãƒ‰æ•° */
 
 void SubBytes(int data[]);            /* FIPS 197  P.16 Figure  6 */
 void ShiftRows(int data[]);           /* FIPS 197  P.17 Figure  8 */
@@ -72,8 +76,7 @@ int Cipher(int *);                    /* FIPS 197  P.15 Figure  5 */
 int invCipher(int *);                 /* FIPS 197  P.21 Figure 12 */
 
 /************************************************************/
-void datadump(char c[],void *dt,int len)
-{
+void datadump(const char *c,void *dt,int len){
   int i;
   unsigned char *cdt = (unsigned char *)dt;
   printf("%s",c);
@@ -85,8 +88,12 @@ void datadump(char c[],void *dt,int len)
 }
 
 /************************************************************/
-main()
-{
+// void aes_speed(){
+
+// }
+
+/************************************************************/
+int main(){
   unsigned char keys[]={0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
                         0x08,0x09,0x0a,0x0b,0x0c,0x0d,0x0e,0x0f,
                         0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
@@ -96,53 +103,54 @@ main()
 
   /* FIPS 197  P.35 Appendix C.1 AES-128 Test */
   memcpy(key,keys,16);
-  nk = 4;               //Œ®‚Ì’·‚³ 4,6,8(128,192,256 bit)
-  nr = nk + 6;          //ƒ‰ƒEƒ“ƒh” 10,12,14
+  nk = 4;               //éµã®é•·ã• 4,6,8(128,192,256 bit)
+  nr = nk + 6;          //ãƒ©ã‚¦ãƒ³ãƒ‰æ•° 10,12,14
 
-  KeyExpansion(key);    //ˆÃ†‰»‚·‚é‚½‚ß‚ÌŒ®‚Ì€”õ
-  memcpy(data,init,NBb); //NB‚É‚Ä 4ƒ[ƒh 16ƒoƒCƒg‚Æ’è‹`‚µ‚Ä‚¢‚é
+  KeyExpansion(key);    //æš—å·åŒ–ã™ã‚‹ãŸã‚ã®éµã®æº–å‚™
+  memcpy(data,init,NBb); //NBã«ã¦ 4ãƒ¯ãƒ¼ãƒ‰ 16ãƒã‚¤ãƒˆã¨å®šç¾©ã—ã¦ã„ã‚‹
 
   printf("  <FIPS 197  P.35 Appendix C.1 AES-128 TEST>\n\n");
   datadump("PLAINTEXT: ",data,4);
   datadump("KEY:       ",key,4);
   Cipher(data);
-  datadump("ˆÃ†‰»:    ",data,4);
+  datadump("æš—å·åŒ–:    ",data,4);
   invCipher(data);
-  datadump("•œ†‰»:    ",data,4);
+  datadump("å¾©å·åŒ–:    ",data,4);
   printf("\n");
 
   /* FIPS 197  P.38 Appendix C.2 AES-192 Test */
   memcpy(key,keys,24);
-  nk = 6;               //Œ®‚Ì’·‚³ 4,6,8(128,192,256 bit)
-  nr = nk + 6;          //ƒ‰ƒEƒ“ƒh” 10,12,14
+  nk = 6;               //éµã®é•·ã• 4,6,8(128,192,256 bit)
+  nr = nk + 6;          //ãƒ©ã‚¦ãƒ³ãƒ‰æ•° 10,12,14
 
-  KeyExpansion(key);    //ˆÃ†‰»‚·‚é‚½‚ß‚ÌŒ®‚Ì€”õ
-  memcpy(data,init,NBb); //NB‚É‚Ä 4ƒ[ƒh 16ƒoƒCƒg‚Æ’è‹`‚µ‚Ä‚¢‚é
+  KeyExpansion(key);    //æš—å·åŒ–ã™ã‚‹ãŸã‚ã®éµã®æº–å‚™
+  memcpy(data,init,NBb); //NBã«ã¦ 4ãƒ¯ãƒ¼ãƒ‰ 16ãƒã‚¤ãƒˆã¨å®šç¾©ã—ã¦ã„ã‚‹
 
   printf("  <FIPS 197  P.38 Appendix C.2 AES-192 TEST>\n\n");
   datadump("PLAINTEXT: ",data,4);
   datadump("KEY:       ",key,6);
   Cipher(data);
-  datadump("ˆÃ†‰»:    ",data,4);
+  datadump("æš—å·åŒ–:    ",data,4);
   invCipher(data);
-  datadump("•œ†‰»:    ",data,4);
+  datadump("å¾©å·åŒ–:    ",data,4);
   printf("\n");
 
   /* FIPS 197  P.42 Appendix C.3 AES-256 Test */
   memcpy(key,keys,32);
-  nk = 8;               //Œ®‚Ì’·‚³ 4,6,8(128,192,256 bit)
-  nr = nk + 6;          //ƒ‰ƒEƒ“ƒh” 10,12,14
+  nk = 8;               //éµã®é•·ã• 4,6,8(128,192,256 bit)
+  nr = nk + 6;          //ãƒ©ã‚¦ãƒ³ãƒ‰æ•° 10,12,14
 
-  KeyExpansion(key);    //ˆÃ†‰»‚·‚é‚½‚ß‚ÌŒ®‚Ì€”õ
-  memcpy(data,init,NBb); //NB‚É‚Ä 4ƒ[ƒh 16ƒoƒCƒg‚Æ’è‹`‚µ‚Ä‚¢‚é
+  KeyExpansion(key);    //æš—å·åŒ–ã™ã‚‹ãŸã‚ã®éµã®æº–å‚™
+  memcpy(data,init,NBb); //NBã«ã¦ 4ãƒ¯ãƒ¼ãƒ‰ 16ãƒã‚¤ãƒˆã¨å®šç¾©ã—ã¦ã„ã‚‹
 
   printf("  <FIPS 197  P.42 Appendix C.3 AES-256 TEST>\n\n");
   datadump("PLAINTEXT: ",data,4);
   datadump("KEY:       ",key,8);
   Cipher(data);
-  datadump("ˆÃ†‰»:    ",data,4);
+  datadump("æš—å·åŒ–:    ",data,4);
   invCipher(data);
-  datadump("•œ†‰»:    ",data,4);
+  datadump("å¾©å·åŒ–:    ",data,4);
+  
   return 0;
 }
 
@@ -189,7 +197,7 @@ int invSbox[256]={
 };
 
 /************************************************************/
-/* FIPS 197  P.15 Figure 5 */ //ˆÃ†‰»
+/* FIPS 197  P.15 Figure 5 */ //æš—å·åŒ–
 int Cipher(int data[])
 {
   int i;
@@ -211,7 +219,7 @@ int Cipher(int data[])
 }
 
 /************************************************************/
-/* FIPS 197  P.21 Figure 12 */ //•œ†‰»
+/* FIPS 197  P.21 Figure 12 */ //å¾©å·åŒ–
 int invCipher(int data[])
 {
   int i;
@@ -238,7 +246,7 @@ void SubBytes(int data[])
 {
   int i,j;
   unsigned char *cb=(unsigned char*)data;
-  for(i=0;i<NBb;i+=4)//—˜_“I‚ÈˆÓ–¡‚©‚ç“ñdƒ‹[ƒv‚É‚µ‚Ä‚¢‚é‚ªˆÓ–¡‚Í–³‚¢
+  for(i=0;i<NBb;i+=4)//ç†è«–çš„ãªæ„å‘³ã‹ã‚‰äºŒé‡ãƒ«ãƒ¼ãƒ—ã«ã—ã¦ã„ã‚‹ãŒæ„å‘³ã¯ç„¡ã„
   {
     for(j=0;j<4;j++)
     {
@@ -253,7 +261,7 @@ void invSubBytes(int data[])
 {
   int i,j;
   unsigned char *cb=(unsigned char*)data;
-  for(i=0;i<NBb;i+=4)//—˜_“I‚ÈˆÓ–¡‚©‚ç“ñdƒ‹[ƒv‚É‚µ‚Ä‚¢‚é‚ªˆÓ–¡‚Í–³‚¢
+  for(i=0;i<NBb;i+=4)//ç†è«–çš„ãªæ„å‘³ã‹ã‚‰äºŒé‡ãƒ«ãƒ¼ãƒ—ã«ã—ã¦ã„ã‚‹ãŒæ„å‘³ã¯ç„¡ã„
   {
     for(j=0;j<4;j++)
     {
@@ -307,7 +315,7 @@ void invShiftRows(int data[])
 }
 
 /************************************************************/
-/* FIPS 197 P.10 4.2 æZ (n”{) */
+/* FIPS 197 P.10 4.2 ä¹—ç®— (nå€) */
 int mul(int dt,int n)
 {
   int i,x=0;
@@ -426,7 +434,7 @@ int RotWord(int in)
 /* FIPS 197  P.20 Figure 11 */
 void KeyExpansion(void *key)
 {
-  /* FIPS 197  P.27 Appendix A.1 Rcon[i/Nk] */ //–”‚Í mul‚ğg—p‚·‚é
+  /* FIPS 197  P.27 Appendix A.1 Rcon[i/Nk] */ //åˆã¯ mulã‚’ä½¿ç”¨ã™ã‚‹
   int Rcon[10]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x1b,0x36};
   int i,temp;
 
