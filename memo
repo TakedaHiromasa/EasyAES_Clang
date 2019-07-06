@@ -1,0 +1,21 @@
+$ openssl speed aes
+Doing aes-128 cbc for 3s on 16 size blocks: 10762582 aes-128 cbc's in 2.71s
+Doing aes-128 cbc for 3s on 64 size blocks: 4177444 aes-128 cbc's in 2.98s
+Doing aes-128 cbc for 3s on 256 size blocks: 945088 aes-128 cbc's in 2.76s
+Doing aes-128 cbc for 3s on 1024 size blocks: 210749 aes-128 cbc's in 2.46s
+Doing aes-128 cbc for 3s on 8192 size blocks: 32021 aes-128 cbc's in 2.88s
+Doing aes-192 cbc for 3s on 16 size blocks: 12638380 aes-192 cbc's in 2.91s
+Doing aes-192 cbc for 3s on 64 size blocks: 3461964 aes-192 cbc's in 2.92s
+Doing aes-192 cbc for 3s on 256 size blocks: 834597 aes-192 cbc's in 2.87s
+Doing aes-192 cbc for 3s on 1024 size blocks: 217315 aes-192 cbc's in 2.88s
+Doing aes-192 cbc for 3s on 8192 size blocks: 27579 aes-192 cbc's in 2.92s
+Doing aes-256 cbc for 3s on 16 size blocks: 10802885 aes-256 cbc's in 2.90s
+Doing aes-256 cbc for 3s on 64 size blocks: 2899519 aes-256 cbc's in 2.89s
+Doing aes-256 cbc for 3s on 256 size blocks: 749542 aes-256 cbc's in 2.91s
+Doing aes-256 cbc for 3s on 1024 size blocks: 167222 aes-256 cbc's in 2.83s
+Doing aes-256 cbc for 3s on 8192 size blocks: 22382 aes-256 cbc's in 2.88s
+
+sudo ln -sf /usr/local/bin/gcc-9  /usr/local/bin/gcc
+sudo ln -sf /usr/local/bin/g++-9  /usr/local/bin/g++
+sudo ln -sf /usr/local/bin/gcc-9  /usr/local/bin/cc
+sudo ln -sf /usr/local/bin/g++-9 /usr/local/bin/c++

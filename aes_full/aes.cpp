@@ -48,6 +48,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <array>
+#include <chrono>
 
 constexpr int NB  = 4;   /* 128bit 固定として規格されている(データの長さ) */
 constexpr int NBb = 16;
@@ -88,9 +89,23 @@ void datadump(const char *c,void *dt,int len){
 }
 
 /************************************************************/
-// void aes_speed(){
+void aes_speed(void *key, void *keys, void *init, int nki){
+  memcpy(key,keys,nki*4);
+  nk = nki;              //鍵の長さ 4,6,8(128,192,256 bit)
+  nr = nk + 6;           //ラウンド数 10,12,14
 
-// }
+  KeyExpansion(key);     //暗号化するための鍵の準備
+  memcpy(data,init,NBb); //NBにて 4ワード 16バイトと定義している
+
+  puts("");
+  datadump("PLAINTEXT: ",data,4);
+  datadump("KEY:       ",key,nk);
+  Cipher(data);
+  datadump("暗号化:    ",data,4);
+  invCipher(data);
+  datadump("復号化:    ",data,4);
+  puts("");
+}
 
 /************************************************************/
 int main(){
@@ -100,56 +115,28 @@ int main(){
                         0x18,0x19,0x1a,0x1b,0x1c,0x1d,0x1e,0x1f};
   unsigned char init[]={0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,
                         0x88,0x99,0xaa,0xbb,0xcc,0xdd,0xee,0xff};
+  
+  chrono::system_clock::time_point start, end;
 
-  /* FIPS 197  P.35 Appendix C.1 AES-128 Test */
-  memcpy(key,keys,16);
-  nk = 4;               //鍵の長さ 4,6,8(128,192,256 bit)
-  nr = nk + 6;          //ラウンド数 10,12,14
+  for(int i=0; i<3; i++){
+    start = chrono::system_clock::now();
 
-  KeyExpansion(key);    //暗号化するための鍵の準備
-  memcpy(data,init,NBb); //NBにて 4ワード 16バイトと定義している
+    aes_speed(key,keys,init,4+2*i);
 
-  printf("  <FIPS 197  P.35 Appendix C.1 AES-128 TEST>\n\n");
-  datadump("PLAINTEXT: ",data,4);
-  datadump("KEY:       ",key,4);
-  Cipher(data);
-  datadump("暗号化:    ",data,4);
-  invCipher(data);
-  datadump("復号化:    ",data,4);
-  printf("\n");
+    end = chrono::system_clock::now();
+    double time = static_cast<double>(chrono::duration_cast<chrono::microseconds>(end - start).count() / 1000.0);
+    printf("time %lf[ms]\n", time);
+  }
 
-  /* FIPS 197  P.38 Appendix C.2 AES-192 Test */
-  memcpy(key,keys,24);
-  nk = 6;               //鍵の長さ 4,6,8(128,192,256 bit)
-  nr = nk + 6;          //ラウンド数 10,12,14
+  // /* FIPS 197  P.35 Appendix C.1 AES-128 Test */
+  // //鍵の長さ 4,6,8(128,192,256 bit)
+  // aes_speed(key,keys,init,4);
 
-  KeyExpansion(key);    //暗号化するための鍵の準備
-  memcpy(data,init,NBb); //NBにて 4ワード 16バイトと定義している
+  // /* FIPS 197  P.38 Appendix C.2 AES-192 Test */
+  // aes_speed(key,keys,init,6);
 
-  printf("  <FIPS 197  P.38 Appendix C.2 AES-192 TEST>\n\n");
-  datadump("PLAINTEXT: ",data,4);
-  datadump("KEY:       ",key,6);
-  Cipher(data);
-  datadump("暗号化:    ",data,4);
-  invCipher(data);
-  datadump("復号化:    ",data,4);
-  printf("\n");
-
-  /* FIPS 197  P.42 Appendix C.3 AES-256 Test */
-  memcpy(key,keys,32);
-  nk = 8;               //鍵の長さ 4,6,8(128,192,256 bit)
-  nr = nk + 6;          //ラウンド数 10,12,14
-
-  KeyExpansion(key);    //暗号化するための鍵の準備
-  memcpy(data,init,NBb); //NBにて 4ワード 16バイトと定義している
-
-  printf("  <FIPS 197  P.42 Appendix C.3 AES-256 TEST>\n\n");
-  datadump("PLAINTEXT: ",data,4);
-  datadump("KEY:       ",key,8);
-  Cipher(data);
-  datadump("暗号化:    ",data,4);
-  invCipher(data);
-  datadump("復号化:    ",data,4);
+  // /* FIPS 197  P.42 Appendix C.3 AES-256 Test */
+  // aes_speed(key,keys,init,8);
   
   return 0;
 }
